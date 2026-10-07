@@ -4,17 +4,15 @@ trello-fix is a Google Chrome extension. It makes Trello cards fill the whole br
 
 After installation, Chrome shows it as **Trello Full Page Cards**.
 
-## Download
-
-**[Download the latest version](https://github.com/michalCapo/trello-fix/releases/latest)**
-
-On the download page, look under **Assets**. Download the file named **trello-full-page-cards-VERSION.zip**. VERSION is a number, for example `trello-full-page-cards-1.8.2.zip`.
-
-Choose the named extension ZIP for the steps below, rather than the **Source code** downloads.
-
 ## Install in Google Chrome
 
 You need Google Chrome on a desktop or laptop computer. You do not need to build anything.
+
+**[Download the latest version](https://github.com/michalCapo/trello-fix/releases/latest)**
+
+On the download page, look under **Assets**. Download the file named **trello-full-page-cards-VERSION.zip**. VERSION is a number, for example `trello-full-page-cards-1.8.3.zip`.
+
+Choose the named extension ZIP for the steps below, rather than the **Source code** downloads.
 
 1. Download the **trello-full-page-cards-VERSION.zip** file from the [download page](https://github.com/michalCapo/trello-fix/releases/latest).
 2. Find the ZIP file in your Downloads folder.
