@@ -63,6 +63,7 @@ When a card is open, a strip of cards appears above it. The strip shows cards fr
 - The first list is open when the board loads.
 - Closed lists appear as narrow tabs with their name and total number of cards.
 - Click a closed list to open it.
+- Click an open list's header or name to close it. This replaces Trello's click-to-rename.
 - If two lists are already open, opening a third closes the one opened first.
 - Drag a card onto a closed list to move it there. Your open lists stay open.
 - **Add another list** is a narrow vertical button. Click it to open the normal list form.

@@ -13,6 +13,23 @@ async function runBoardColumnTests() {
   check(open().length === 1 && open()[0] === lists()[0], 'First list open by default');
   check(lists().every(list => list.querySelector('.tfp-board-tab')), 'Every list gets a tab');
   check(lists()[4].querySelector('.tfp-board-count').textContent === '0', 'Empty list gets a zero count');
+  check(lists()[1].getBoundingClientRect().height < document.querySelector('#board').clientHeight / 2,
+    'Closed rail is only as tall as its tab');
+  const header = lists()[0].querySelector('[data-testid="list-name"]');
+  const clickHeader = (x, y) => document.elementFromPoint(x, y)
+    .dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, clientX: x, clientY: y }));
+  const nameText = document.createRange();
+  nameText.selectNodeContents(header.firstChild);
+  const textRect = nameText.getBoundingClientRect();
+  clickHeader(textRect.left + 2, textRect.top + textRect.height / 2);
+  check(open().length === 0, 'Clicking the list name text collapses the list');
+  lists()[0].querySelector('.tfp-board-tab').click();
+  const headerRect = header.getBoundingClientRect();
+  clickHeader(headerRect.right - 4, headerRect.top + headerRect.height / 2);
+  await settle();
+  check(open().length === 0, 'Clicking blank header space collapses the list');
+  lists()[0].querySelector('.tfp-board-tab').click();
+  check(open().length === 1 && open()[0] === lists()[0], 'Clicking a closed rail opens it');
   const composer = document.querySelector('#list-composer');
   const addButton = () => composer.querySelector('button');
   check(getComputedStyle(addButton()).writingMode === 'vertical-rl', 'Add-list button uses vertical text');

@@ -340,7 +340,8 @@
   min-width: 56px !important;
   max-width: 56px !important;
   flex: 0 0 56px !important;
-  height: 100% !important;
+  align-self: flex-start !important;
+  height: auto !important;
   margin-inline: 0 !important;
   padding-inline: 0 !important;
 }
@@ -352,8 +353,7 @@
   justify-content: flex-start !important;
   box-sizing: border-box !important;
   width: 100% !important;
-  height: 100% !important;
-  min-height: 240px !important;
+  height: 260px !important;
   margin: 0 !important;
   padding: 16px 8px !important;
   color: var(--ds-text-inverse, #fff) !important;
@@ -369,7 +369,7 @@
 
 .tfp-board-add-shell [data-testid="list-composer-button-container"] {
   width: 100% !important;
-  height: 100% !important;
+  height: auto !important;
 }
 
 .tfp-board-add:focus-visible {
@@ -379,15 +379,14 @@
 
 .tfp-board-list.tfp-board-collapsed {
   position: relative !important;
-  height: 100% !important;
-  min-height: 240px !important;
+  align-self: flex-start !important;
+  height: auto !important;
   overflow: hidden !important;
   padding: 0 !important;
 }
 
 .tfp-board-tab {
-  position: absolute;
-  inset: 0;
+  position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
@@ -395,7 +394,8 @@
   gap: 16px;
   box-sizing: border-box;
   width: 100%;
-  padding: 12px 6px;
+  height: 260px;
+  padding: 12px 6px 16px;
   border: 0;
   border-radius: inherit;
   background: var(--ds-background-neutral, #f1f2f4);
@@ -430,15 +430,17 @@
 .tfp-board-name {
   writing-mode: vertical-rl;
   text-orientation: mixed;
-  max-height: calc(100% - 64px);
+  min-height: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 600;
 }
 
-/* Hide content visually, but keep the original native drop container hit-testable. */
+/* Hide content visually and out of flow, so the tab sets the rail height,
+   but keep the original native drop container hit-testable. */
 .tfp-board-collapsed > :not(.tfp-board-tab) {
+  position: absolute !important;
   visibility: hidden !important;
 }
 
@@ -448,7 +450,6 @@
   z-index: 1 !important;
   width: 100% !important;
   height: 100% !important;
-  min-height: 240px !important;
   margin: 0 !important;
   padding: 0 !important;
   overflow: hidden !important;

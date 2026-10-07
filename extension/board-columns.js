@@ -3,6 +3,7 @@
   const records = new Map();
   let composers = new Map();
   let openLists = [];
+  let allClosed = false;
   let board = null;
   let scheduled = false;
   let dragging = false;
@@ -22,6 +23,7 @@
 
   function open(list) {
     if (dragging) return;
+    allClosed = false;
     openLists = openLists.filter(entry => entry.list !== list);
     openLists.push({ list, id: listId(list) });
     if (openLists.length > 2) openLists.shift();
@@ -35,6 +37,14 @@
     const rect = shell.getBoundingClientRect();
     if (rect.left < bounds.left) scroller.scrollLeft += rect.left - bounds.left;
     else if (rect.right > bounds.right) scroller.scrollLeft += rect.right - bounds.right;
+  }
+
+  function close(list) {
+    if (dragging) return;
+    openLists = openLists.filter(entry => entry.list !== list);
+    allClosed = !openLists.length;
+    update();
+    records.get(list).button.focus({ preventScroll: true });
   }
 
   function cleanup(list, record) {
@@ -80,6 +90,7 @@
     if (boardId && boardId !== board) {
       board = boardId;
       openLists = [];
+      allClosed = false;
     }
     const lists = [...document.querySelectorAll(listSelector)];
     for (const [list, record] of records) {
@@ -137,7 +148,7 @@
         : [...records.keys()].find(list => entry.id && listId(list) === entry.id);
       return list ? { list, id: listId(list) } : null;
     }).filter(Boolean);
-    if (!openLists.length && records.size) {
+    if (!openLists.length && !allClosed && records.size) {
       const list = records.keys().next().value;
       openLists.push({ list, id: listId(list) });
     }
@@ -156,6 +167,7 @@
     updateComposers(cardOpen);
     if (!records.size) {
       openLists = [];
+      allClosed = false;
       setDragging(false);
     }
   }
@@ -189,6 +201,33 @@
     addEventListener(type, () => {
       // Finish after Trello's drop handlers, including handlers that stop bubbling.
       setTimeout(() => { setDragging(false); schedule(); }, 0);
+    }, true);
+  }
+  // Clicking an open list header, including its name, collapses it instead of
+  // starting Trello's rename. Other header buttons keep their own actions.
+  function headerList(event) {
+    const list = event.target.closest?.('.tfp-board-list:not(.tfp-board-collapsed)');
+    const name = list?.querySelector('[data-testid="list-name"]');
+    const header = name?.closest('[data-testid="list-header"]') || name;
+    if (!header?.contains(event.target) || !records.has(list)) return null;
+    if (event.target.closest('input, textarea, [contenteditable="true"], a')) return null;
+    const control = event.target.closest('button, [role="button"]');
+    if (control && !name.contains(control)) return null;
+    return { list, name };
+  }
+  addEventListener('click', event => {
+    const target = headerList(event);
+    if (!target) return;
+    event.preventDefault();
+    event.stopPropagation();
+    close(target.list);
+  }, true);
+  // Trello can start renaming on press, so hide presses on the name from it.
+  for (const type of ['pointerdown', 'mousedown', 'pointerup', 'mouseup']) {
+    addEventListener(type, event => {
+      if (!headerList(event)?.name.contains(event.target)) return;
+      if (type === 'mousedown') event.preventDefault();
+      event.stopPropagation();
     }, true);
   }
   addEventListener('keydown', event => {
