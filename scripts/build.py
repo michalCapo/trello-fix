@@ -10,7 +10,7 @@ version = json.loads((root / "extension/manifest.json").read_text())["version"]
 if not re.fullmatch(r"\d+\.\d+\.\d+(?:\.\d+)?", version):
     raise SystemExit("Invalid version in extension/manifest.json.")
 
-archive = root / "dist" / f"trello-full-page-cards-{version}.zip"
+archive = root / "dist" / "trello-fix.zip"
 archive.parent.mkdir(exist_ok=True)
 tracked = subprocess.check_output(
     ["git", "ls-files", "-z", "--", "extension", "README.md"], cwd=root

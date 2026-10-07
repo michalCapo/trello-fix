@@ -22,7 +22,7 @@ if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
   exit 1
 fi
 tag="v$version"
-archive="dist/trello-full-page-cards-$version.zip"
+archive="dist/trello-fix.zip"
 
 gh auth status >/dev/null 2>&1 || { echo 'Sign in with gh auth login first.' >&2; exit 1; }
 remote=$(git remote get-url origin)
@@ -51,12 +51,14 @@ else
   notes=$(mktemp)
   trap 'rm -f "$notes"' EXIT
   cat > "$notes" <<EOF
-Download **trello-full-page-cards-$version.zip** and extract it.
+Download **trello-fix.zip** and unzip it into a permanent folder.
 
-1. Open **chrome://extensions** in Chrome.
-2. Turn on **Developer mode**.
-3. Click **Load unpacked** and select the extracted **extension** folder.
-4. Reload Trello. For an existing install, replace its files and click **Reload**.
+1. Open **chrome://extensions** in Chrome and turn on **Developer mode**.
+2. Click **Load unpacked** and select the extracted **extension** folder.
+3. Reload Trello.
+
+To update, replace the files in your original **extension** folder, click
+**Reload** on the Chrome extension, and reload Trello.
 EOF
   gh release create "$tag" "$archive" --verify-tag --latest \
     --title "Trello Full Page Cards $version" --notes-file "$notes" --repo "github.com/$repository"
