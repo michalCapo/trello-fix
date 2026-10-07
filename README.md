@@ -30,7 +30,11 @@ To go back to Trello's normal layout:
 
 ## What it does
 
+Screenshots use fictional demo cards.
+
 ### Full-page cards
+
+![A full-page card with its description and checklist on the left and comments on the right](docs/screenshots/full-page-card.png)
 
 - Cards fill the whole browser tab.
 - On wide screens, comments appear on the right.
@@ -40,6 +44,8 @@ To go back to Trello's normal layout:
 - Trello's own buttons, menus, editing, and close button still work. **Escape** still closes the card.
 
 ### Card strip
+
+![Card navigation with the current card highlighted, member badges, labels, and card numbers](docs/screenshots/card-strip.png)
 
 When a card is open, a strip of cards appears above it. The strip shows cards from the same list.
 
@@ -51,15 +57,20 @@ When a card is open, a strip of cards appears above it. The strip shows cards fr
 
 ### Board columns
 
+![Two open columns, narrow closed columns, and a vertical Add another list button centered on the board](docs/screenshots/board-columns.png)
+
 - At most two lists are open at once.
 - The first list is open when the board loads.
 - Closed lists appear as narrow tabs with their name and total number of cards.
 - Click a closed list to open it.
 - If two lists are already open, opening a third closes the one opened first.
 - Drag a card onto a closed list to move it there. Your open lists stay open.
+- **Add another list** is a narrow vertical button. Click it to open the normal list form.
 - The board is centered when it fits on the screen. When it is wider than the screen, scroll sideways to see all lists.
 
 ### Image previews
+
+![A zoomed attachment preview with controls for zooming and panning](docs/screenshots/image-preview.png)
 
 - Scroll the mouse wheel to zoom in and out.
 - Click and drag to move around the image.

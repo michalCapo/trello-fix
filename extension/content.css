@@ -334,6 +334,49 @@
   padding-inline: 0 !important;
 }
 
+.tfp-board-add-shell {
+  box-sizing: border-box !important;
+  width: 56px !important;
+  min-width: 56px !important;
+  max-width: 56px !important;
+  flex: 0 0 56px !important;
+  height: 100% !important;
+  margin-inline: 0 !important;
+  padding-inline: 0 !important;
+}
+
+.tfp-board-add {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  box-sizing: border-box !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 240px !important;
+  margin: 0 !important;
+  padding: 16px 8px !important;
+  color: var(--ds-text-inverse, #fff) !important;
+  background: var(--ds-background-brand-bold, #0c66e4) !important;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  white-space: nowrap;
+}
+
+.tfp-board-add:hover {
+  background: var(--ds-background-brand-bold-hovered, #0055cc) !important;
+}
+
+.tfp-board-add-shell [data-testid="list-composer-button-container"] {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.tfp-board-add:focus-visible {
+  outline: 3px solid var(--ds-border-inverse, #fff);
+  outline-offset: -3px;
+}
+
 .tfp-board-list.tfp-board-collapsed {
   position: relative !important;
   height: 100% !important;

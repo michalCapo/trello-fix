@@ -1,6 +1,7 @@
 (() => {
   const listSelector = '[data-testid="list"]';
   const records = new Map();
+  let composers = new Map();
   let openLists = [];
   let board = null;
   let scheduled = false;
@@ -43,6 +44,34 @@
     record.cards.classList.remove('tfp-board-drop-zone');
     record.button.remove();
     records.delete(list);
+  }
+
+  function updateComposers(cardOpen) {
+    const next = new Map();
+    if (!cardOpen) {
+      const rows = new Set([...records.values()].map(record => record.shell.parentElement));
+      for (const row of rows) {
+        const shell = row.lastElementChild;
+        if (!shell || shell.querySelector(`${listSelector}, input, textarea, [contenteditable="true"]`)) continue;
+        const container = shell.matches('[data-testid="list-composer-button-container"]') ? shell
+          : shell.querySelector('[data-testid="list-composer-button-container"], [data-testid="list-composer-button"]');
+        const button = container?.matches('button, [role="button"]') ? container
+          : (container || shell).querySelector('button, [role="button"]') || container;
+        if (!button) continue;
+        if (!container && !/^\+?\s*Add (?:another |a )?list$/i.test(button.textContent.trim())) continue;
+        next.set(button, shell);
+      }
+    }
+    for (const [button, shell] of composers) {
+      if (next.has(button)) continue;
+      button.classList.remove('tfp-board-add');
+      shell.classList.remove('tfp-board-add-shell');
+    }
+    for (const [button, shell] of next) {
+      if (!button.classList.contains('tfp-board-add')) button.classList.add('tfp-board-add');
+      if (!shell.classList.contains('tfp-board-add-shell')) shell.classList.add('tfp-board-add-shell');
+    }
+    composers = next;
   }
 
   function update() {
@@ -124,6 +153,7 @@
       record.shell.classList.toggle('tfp-board-collapsed-shell', collapsed);
       record.button.hidden = !collapsed;
     }
+    updateComposers(cardOpen);
     if (!records.size) {
       openLists = [];
       setDragging(false);
@@ -176,7 +206,10 @@
           || (mutation.target === record.shell
             && (record.shell.classList.contains('tfp-board-collapsed-shell') !== record.collapsed
               || record.shell.classList.contains('tfp-board-shell') !== record.spaced))
-          || (mutation.target === record.cards && !record.cards.classList.contains('tfp-board-drop-zone')));
+          || (mutation.target === record.cards && !record.cards.classList.contains('tfp-board-drop-zone')))
+          || [...composers].some(([button, shell]) =>
+            (mutation.target === button && !button.classList.contains('tfp-board-add'))
+            || (mutation.target === shell && !shell.classList.contains('tfp-board-add-shell')));
       }
       return !mutation.target.closest?.('.tfp-board-tab');
     })) schedule();

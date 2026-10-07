@@ -13,6 +13,30 @@ async function runBoardColumnTests() {
   check(open().length === 1 && open()[0] === lists()[0], 'First list open by default');
   check(lists().every(list => list.querySelector('.tfp-board-tab')), 'Every list gets a tab');
   check(lists()[4].querySelector('.tfp-board-count').textContent === '0', 'Empty list gets a zero count');
+  const composer = document.querySelector('#list-composer');
+  const addButton = () => composer.querySelector('button');
+  check(getComputedStyle(addButton()).writingMode === 'vertical-rl', 'Add-list button uses vertical text');
+  check(composer.getBoundingClientRect().width === 56, 'Add-list column is as narrow as closed lists');
+  const row = document.querySelector('#board');
+  if (row.scrollWidth <= row.clientWidth) {
+    const bounds = row.getBoundingClientRect();
+    const left = row.firstElementChild.getBoundingClientRect().left - bounds.left;
+    const right = bounds.right - composer.getBoundingClientRect().right;
+    check(Math.abs(left - right) <= 1, 'All columns including Add list are horizontally centered');
+  } else {
+    check(row.firstElementChild.getBoundingClientRect().left >= row.getBoundingClientRect().left,
+      'Overflowing columns start inside the scrollable viewport');
+  }
+  addButton().click();
+  await settle();
+  check(!!composer.querySelector('input') && !composer.classList.contains('tfp-board-add-shell')
+    && composer.getBoundingClientRect().width > 56, 'Native list form opens at normal width');
+  composer.querySelector('[data-cancel]').click();
+  await settle();
+  check(composer.classList.contains('tfp-board-add-shell'), 'Cancel restores the narrow add-list button');
+  addButton().className = '';
+  await settle();
+  check(addButton().classList.contains('tfp-board-add'), 'React class updates restore add-list styling');
   lists()[1].querySelector('.tfp-board-tab').click();
   check(open().length === 2 && open().includes(lists()[0]) && open().includes(lists()[1]),
     'Opening a second list keeps the first open');
@@ -64,10 +88,12 @@ async function runBoardColumnTests() {
   await settle();
   check(open().length === lists().length && lists().every(list => list.querySelector('.tfp-board-tab').hidden),
     'Full-page card dialog preserves native board geometry');
+  check(!composer.classList.contains('tfp-board-add-shell'), 'Full-page card preserves native composer geometry');
   dialog.remove();
   await settle();
   check(open().length === 2 && open().includes(replacement) && open().includes(otherOpen),
     'Closing full-page card restores both selected columns');
+  check(composer.classList.contains('tfp-board-add-shell'), 'Closing full-page card restores vertical add-list button');
   const sourceCard = replacement.querySelector('[data-testid="list-card"]');
   sourceCard.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: new DataTransfer() }));
   lists()[4].querySelector('.tfp-board-tab').click();

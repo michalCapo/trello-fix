@@ -19,6 +19,12 @@
   .label { display: block; width: fit-content; padding: 0 8px; background: #f5cd47; border-radius: 4px; margin-bottom: 6px; font-size: 12px; }
   .meta { margin-top: 12px; color: #626f86; font-size: 12px; }
   .add { margin-top: 12px; padding: 8px; border: 0; text-align: left; background: transparent; color: inherit; }
+  #list-composer { box-sizing: content-box; width: 294px; flex: 0 0 294px; padding-inline: 6px; }
+  #list-composer button { font: inherit; cursor: pointer; }
+  #list-composer > [data-testid="list-composer-button-container"] { height: 100%; }
+  #list-composer > [data-testid="list-composer-button-container"] > button { display: flex; gap: 8px; width: 100%; padding: 12px; border: 0; border-radius: 12px; background: #4386d4; color: white; }
+  #list-composer form { padding: 12px; border-radius: 12px; background: #f1f2f4; }
+  #list-composer input { width: 100%; margin-bottom: 12px; padding: 8px; }
 </style>
 <header><h1>Board columns</h1><p>Local test fixture · Drag a card to a closed column. Click a column to open it.</p></header>
 <div id="board"></div>
@@ -32,8 +38,21 @@
   ];
   let source = null;
   function populate() {
-    document.querySelector('#board').innerHTML = names.map((name, index) => `<div data-testid="list-wrapper"><section data-testid="list" data-card-drop-list-id="list-${index}"><h2 data-testid="list-name">${name}</h2><div data-testid="list-cards">${titles[index].map((title, n) => `<article data-testid="list-card" draggable="true"><span class="label">Test</span><a data-testid="card-name" href="/c/card-${index}-${n}">${title}</a><div class="meta">#${100 + index * 10 + n}</div></article>`).join('')}</div><button class="add">+ Add a card</button></section></div>`).join('');
+    document.querySelector('#board').innerHTML = names.map((name, index) => `<div data-testid="list-wrapper"><section data-testid="list" data-card-drop-list-id="list-${index}"><h2 data-testid="list-name">${name}</h2><div data-testid="list-cards">${titles[index].map((title, n) => `<article data-testid="list-card" draggable="true"><span class="label">Test</span><a data-testid="card-name" href="/c/card-${index}-${n}">${title}</a><div class="meta">#${100 + index * 10 + n}</div></article>`).join('')}</div><button class="add">+ Add a card</button></section></div>`).join('') + '<div id="list-composer"></div>';
+    renderComposer(false);
   }
+  function renderComposer(editing) {
+    document.querySelector('#list-composer').innerHTML = editing
+      ? '<form><input aria-label="List title" placeholder="Enter list title"><button type="submit">Add list</button><button type="button" data-cancel>Cancel</button></form>'
+      : '<div data-testid="list-composer-button-container"><button type="button"><span>+</span><span>Add another list</span></button></div>';
+  }
+  document.addEventListener('click', event => {
+    if (event.target.closest('[data-testid="list-composer-button-container"] button')) renderComposer(true);
+    if (event.target.closest('[data-cancel]')) renderComposer(false);
+  });
+  document.addEventListener('submit', event => {
+    if (event.target.closest('#list-composer')) { event.preventDefault(); renderComposer(false); }
+  });
   populate();
   document.addEventListener('dragstart', event => {
     source = event.target.closest('[data-testid="list-card"]');

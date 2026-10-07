@@ -13,7 +13,7 @@ if not re.fullmatch(r"\d+\.\d+\.\d+(?:\.\d+)?", version):
 archive = root / "dist" / "trello-fix.zip"
 archive.parent.mkdir(exist_ok=True)
 tracked = subprocess.check_output(
-    ["git", "ls-files", "-z", "--", "extension", "README.md"], cwd=root
+    ["git", "ls-files", "-z", "--", "extension", "README.md", "docs/screenshots"], cwd=root
 )
 files = [root / name.decode() for name in tracked.split(b"\0") if name]
 with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as package:
