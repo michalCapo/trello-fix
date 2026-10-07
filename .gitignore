@@ -3,6 +3,7 @@
 !.env.example
 node_modules/
 /dist/
+/trello-fix.zip
 *.log
 .DS_Store
 /.impeccable/

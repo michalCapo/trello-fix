@@ -102,8 +102,8 @@ You only need this section if you want to build or publish a new version. You do
 **Commands:**
 
 - `make` lists all available actions.
-- `make build` creates only the ZIP file: `dist/trello-fix.zip`. It does not publish anything.
-- `make release` or `./release` builds the ZIP, pushes `main` and the version tag, and publishes the ZIP on GitHub Releases.
+- `make build` rebuilds `dist/trello-fix.zip` and the identical `trello-fix.zip` in the project root. It does not publish anything. Both ZIPs are generated files and are ignored by Git.
+- `make release` or `./release` rebuilds both ZIPs, pushes `main` and the version tag, and publishes `dist/trello-fix.zip` on GitHub Releases.
 
 **To publish a release:**
 

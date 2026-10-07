@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import re
+import shutil
 import subprocess
 import zipfile
 from pathlib import Path
@@ -23,4 +24,5 @@ with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as package:
         entry.compress_type = zipfile.ZIP_DEFLATED
         entry.external_attr = 0o100644 << 16
         package.writestr(entry, path.read_bytes())
+shutil.copyfile(archive, root / "trello-fix.zip")
 print(archive.relative_to(root))
