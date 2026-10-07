@@ -1,0 +1,426 @@
+/* All overrides apply only to the card view tagged by content.js. */
+.tfp-overlay {
+  position: fixed !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100dvh !important;
+  padding: 0 !important;
+  overflow: auto !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: auto !important;
+  background: var(--ds-surface, #fff) !important;
+}
+
+.tfp-frame,
+.tfp-card,
+.tfp-shell {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  max-height: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+
+.tfp-card {
+  min-height: 100dvh !important;
+  background: var(--ds-surface, #fff) !important;
+}
+
+.tfp-shell {
+  display: block !important;
+}
+
+.tfp-layout {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.tfp-main,
+.tfp-panel {
+  box-sizing: border-box !important;
+  position: relative !important;
+  /* Contain Trello's title layers below the sticky card tabs. */
+  z-index: 0 !important;
+  flex: none !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
+.tfp-panel {
+  transform: none !important;
+  border-left: 0 !important;
+  border-top: 1px solid var(--ds-border, #dfe1e6) !important;
+}
+
+.tfp-panel[aria-hidden="true"],
+.tfp-resizer {
+  display: none !important;
+}
+
+.tfp-card [data-testid="card-back-panel"] {
+  width: 100% !important;
+  min-width: 0 !important;
+}
+
+/* The page scrolls as one surface, so Trello's duplicate scroll header is unneeded. */
+.tfp-card [data-testid="card-back-sticky-header"] {
+  display: none !important;
+}
+
+.tfp-card header,
+.tfp-card [data-testid="card-cover"] {
+  border-radius: 0 !important;
+}
+
+/* ExpandableContent wraps the description, followed by its fade and toggle. */
+.tfp-card [data-testid="description-content-area"] > div > div:first-child {
+  max-height: none !important;
+  overflow: visible !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+.tfp-card [data-testid="description-content-area"] > div > div[role="button"],
+.tfp-card [data-testid="description-content-area"] > div > button {
+  display: none !important;
+}
+
+/* Keep Trello's close/download controls above the image canvas. */
+.tfp-image-stage {
+  position: absolute !important;
+  inset: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.tfp-image-viewer {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  cursor: grab !important;
+  touch-action: none;
+  user-select: none;
+}
+
+.tfp-image-viewer.tfp-image-dragging {
+  cursor: grabbing !important;
+}
+
+.tfp-image-viewer > img {
+  position: absolute !important;
+  inset: auto !important;
+  top: 0 !important;
+  left: 0 !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  object-fit: contain !important;
+  transform-origin: 0 0 !important;
+  transition: none !important;
+  cursor: inherit !important;
+}
+
+.tfp-toolbar {
+  position: static !important;
+  transform: none !important;
+  z-index: auto !important;
+  width: 100% !important;
+  margin: 16px 0 !important;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* Leave at least 660 px for card content and 380 px for comments. */
+@media (min-width: 1100px) {
+  .tfp-layout {
+    flex-direction: row !important;
+    min-height: calc(100dvh - 120px);
+  }
+
+  .tfp-main {
+    flex: 1 1 0 !important;
+  }
+
+  .tfp-panel {
+    flex: 0 0 clamp(380px, 36vw, 560px) !important;
+    width: clamp(380px, 36vw, 560px) !important;
+    border-top: 0 !important;
+    border-left: 1px solid var(--ds-border, #dfe1e6) !important;
+  }
+}
+
+/* List navigation is extension-owned; Trello's card DOM stays in place. */
+.tfp-column-nav {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  min-width: 0;
+  padding: 6px 16px;
+  color: var(--ds-text, #172b4d);
+  background: var(--ds-surface-sunken, #f4f5f7);
+  border-bottom: 1px solid var(--ds-border, #dfe1e6);
+}
+
+.tfp-column-cards {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  overflow: auto;
+  overscroll-behavior: contain;
+  margin: 0;
+  padding: 2px 0;
+  list-style: none;
+  scrollbar-width: thin;
+  scrollbar-color: var(--ds-border, #8590a2) transparent;
+}
+
+.tfp-column-cards li {
+  flex: 0 0 auto;
+  max-width: min(360px, 80vw);
+}
+
+.tfp-column-cards a {
+  display: block;
+  padding: 6px 14px;
+  margin: 0;
+  border: 1px solid var(--ds-border, #b3b9c4);
+  border-radius: 4px;
+  background: var(--ds-surface, #fff);
+  color: var(--ds-text, #172b4d);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.tfp-column-cards a:hover {
+  background: var(--ds-background-neutral-hovered, #dcdfe4);
+}
+
+.tfp-column-title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tfp-column-badges {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  overflow: hidden;
+}
+
+.tfp-column-number {
+  flex: 0 0 auto;
+  margin-left: auto;
+  color: var(--ds-text-subtle, #44546f);
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.tfp-column-member {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  border-radius: 50%;
+  background-size: cover;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 24px;
+}
+
+.tfp-column-member img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.tfp-column-label {
+  flex: 0 1 auto;
+  min-width: 16px;
+  height: 20px;
+  padding: 0 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.tfp-column-cards a:active {
+  background: var(--ds-background-neutral-pressed, #b3b9c4);
+}
+
+.tfp-column-cards a[aria-current="page"] {
+  border-color: var(--ds-border-selected, #0c66e4);
+  color: var(--ds-text-selected, #0c66e4);
+  background: var(--ds-background-selected, #e9f2ff);
+  font-weight: 600;
+}
+
+.tfp-column-cards a:focus-visible {
+  outline: 2px solid var(--ds-border-focused, #388bff);
+  outline-offset: -2px;
+}
+
+.tfp-column-cards a[draggable="true"] {
+  cursor: grab;
+}
+
+.tfp-column-cards a.tfp-column-dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.tfp-column-cards a[data-drop-edge="before"] {
+  box-shadow: -3px 0 var(--ds-border-focused, #388bff);
+}
+
+.tfp-column-cards a[data-drop-edge="after"] {
+  box-shadow: 3px 0 var(--ds-border-focused, #388bff);
+}
+
+.tfp-column-empty {
+  margin: 16px 0 0;
+  color: var(--ds-text-subtle, #44546f);
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* Up to two native board lists stay open; the others become vertical drop rails. */
+:has(> .tfp-board-shell) {
+  justify-content: safe center !important;
+}
+
+.tfp-board-collapsed-shell,
+.tfp-board-list.tfp-board-collapsed {
+  box-sizing: border-box !important;
+  width: 56px !important;
+  min-width: 56px !important;
+  max-width: 56px !important;
+  flex: 0 0 56px !important;
+}
+
+.tfp-board-shell {
+  margin-inline: 0 12px !important;
+  padding-inline: 0 !important;
+}
+
+.tfp-board-list.tfp-board-collapsed {
+  position: relative !important;
+  height: 100% !important;
+  min-height: 240px !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+}
+
+.tfp-board-tab {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 6px;
+  border: 0;
+  border-radius: inherit;
+  background: var(--ds-background-neutral, #f1f2f4);
+  color: var(--ds-text, #172b4d);
+  font: inherit;
+  cursor: pointer;
+}
+
+.tfp-board-tab[hidden] { display: none; }
+
+.tfp-board-tab:hover {
+  background: var(--ds-background-neutral-hovered, #dcdfe4);
+}
+
+.tfp-board-tab:focus-visible {
+  outline: 3px solid var(--ds-border-focused, #388bff);
+  outline-offset: -3px;
+}
+
+.tfp-board-count {
+  display: grid;
+  place-items: center;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0 2px;
+  border-radius: 50%;
+  background: var(--ds-surface, #fff);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.tfp-board-name {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  max-height: calc(100% - 64px);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 600;
+}
+
+/* Hide content visually, but keep the original native drop container hit-testable. */
+.tfp-board-collapsed > :not(.tfp-board-tab) {
+  visibility: hidden !important;
+}
+
+.tfp-board-collapsed .tfp-board-drop-zone {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 240px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  visibility: visible !important;
+}
+
+.tfp-board-collapsed .tfp-board-drop-zone > * {
+  display: none !important;
+}
+
+.tfp-board-dragging .tfp-board-tab {
+  pointer-events: none;
+}
+
+.tfp-board-drop-hover .tfp-board-tab {
+  background: var(--ds-background-selected, #e9f2ff);
+  box-shadow: inset 0 0 0 3px var(--ds-border-focused, #388bff);
+}

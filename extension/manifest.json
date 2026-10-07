@@ -1,0 +1,14 @@
+{
+  "manifest_version": 3,
+  "name": "Trello Full Page Cards",
+  "version": "1.8.0",
+  "description": "Open Trello cards as full-page views and keep up to two board columns open at a time.",
+  "content_scripts": [
+    {
+      "matches": ["https://trello.com/*"],
+      "css": ["content.css"],
+      "js": ["content.js", "board-columns.js", "column-nav.js", "image-zoom.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

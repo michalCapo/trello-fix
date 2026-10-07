@@ -1,0 +1,23 @@
+#!/usr/bin/env python3
+import json
+import re
+import zipfile
+from pathlib import Path
+
+root = Path(__file__).resolve().parent.parent
+version = json.loads((root / "extension/manifest.json").read_text())["version"]
+if not re.fullmatch(r"\d+\.\d+\.\d+(?:\.\d+)?", version):
+    raise SystemExit("Invalid version in extension/manifest.json.")
+
+archive = root / "dist" / f"trello-full-page-cards-{version}.zip"
+archive.parent.mkdir(exist_ok=True)
+files = sorted(path for path in (root / "extension").rglob("*") if path.is_file())
+files.append(root / "README.md")
+with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as package:
+    for path in files:
+        # Fixed timestamps make repeated builds of the same files identical.
+        entry = zipfile.ZipInfo(path.relative_to(root).as_posix())
+        entry.compress_type = zipfile.ZIP_DEFLATED
+        entry.external_attr = 0o100644 << 16
+        package.writestr(entry, path.read_bytes())
+print(archive.relative_to(root))

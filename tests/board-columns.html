@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Board columns — local fixture</title>
+<link rel="stylesheet" href="../extension/content.css">
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 14px/1.4 system-ui, sans-serif; color: #172b4d; background: #0c55ba; }
+  header { padding: 16px 20px; color: white; }
+  h1 { margin: 0; font-size: 18px; }
+  header p { margin: 4px 0 0; }
+  #board { display: flex; padding: 8px 20px; height: calc(100dvh - 86px); overflow-x: auto; align-items: stretch; }
+  [data-testid="list-wrapper"] { box-sizing: content-box; width: 294px; flex: 0 0 294px; padding-inline: 6px; list-style: none; }
+  [data-testid="list"] { display: flex; flex-direction: column; max-height: 100%; border-radius: 12px; background: #f1f2f4; padding: 8px; }
+  [data-testid="list"] > h2 { margin: 4px 12px 12px; font-size: 14px; }
+  [data-testid="list-cards"] { display: flex; flex-direction: column; gap: 8px; min-height: 70px; overflow-y: auto; }
+  [data-testid="list-card"] { border-radius: 8px; padding: 12px; background: white; box-shadow: 0 1px 1px #091e4240; cursor: grab; }
+  a { color: inherit; text-decoration: none; }
+  .label { display: block; width: fit-content; padding: 0 8px; background: #f5cd47; border-radius: 4px; margin-bottom: 6px; font-size: 12px; }
+  .meta { margin-top: 12px; color: #626f86; font-size: 12px; }
+  .add { margin-top: 12px; padding: 8px; border: 0; text-align: left; background: transparent; color: inherit; }
+</style>
+<header><h1>Board columns</h1><p>Local test fixture · Drag a card to a closed column. Click a column to open it.</p></header>
+<div id="board"></div>
+<script>
+  const names = ['To do', 'In progress', 'Ready for test', 'Backlog', 'Empty'];
+  const titles = [
+    ['Draft release notes', 'Review the layout', 'Update the help page', 'Check keyboard navigation'],
+    ['Build a sample view', 'Polish card controls'],
+    ['Test filtering', 'Verify attachments'],
+    ['Export sample data', 'Review activity logs', 'Update settings'], []
+  ];
+  let source = null;
+  function populate() {
+    document.querySelector('#board').innerHTML = names.map((name, index) => `<div data-testid="list-wrapper"><section data-testid="list" data-card-drop-list-id="list-${index}"><h2 data-testid="list-name">${name}</h2><div data-testid="list-cards">${titles[index].map((title, n) => `<article data-testid="list-card" draggable="true"><span class="label">Test</span><a data-testid="card-name" href="/c/card-${index}-${n}">${title}</a><div class="meta">#${100 + index * 10 + n}</div></article>`).join('')}</div><button class="add">+ Add a card</button></section></div>`).join('');
+  }
+  populate();
+  document.addEventListener('dragstart', event => {
+    source = event.target.closest('[data-testid="list-card"]');
+    if (source) event.dataTransfer.setData('text/plain', source.textContent);
+  });
+  document.addEventListener('dragover', event => {
+    if (source && event.target.closest('[data-testid="list-cards"]')) event.preventDefault();
+  });
+  document.addEventListener('drop', event => {
+    const target = event.target.closest('[data-testid="list-cards"]');
+    if (target && source) { event.preventDefault(); target.append(source); source = null; }
+  });
+  document.addEventListener('dragend', () => { source = null; });
+</script>
+<script src="../extension/board-columns.js"></script>
+<script src="board-columns.test.js"></script>
+</html>

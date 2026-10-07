@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
+for command in git gh python3; do
+  command -v "$command" >/dev/null || { echo "Missing command: $command" >&2; exit 1; }
+done
+
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo 'Commit your changes before running ./release.' >&2
+  exit 1
+fi
+if [[ "$(git branch --show-current)" != main ]]; then
+  echo 'Run ./release from the main branch.' >&2
+  exit 1
+fi
+
+version=$(python3 -c 'import json; print(json.load(open("extension/manifest.json"))["version"])')
+if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(\.[0-9]+)?$ ]]; then
+  echo 'Invalid version in extension/manifest.json.' >&2
+  exit 1
+fi
+tag="v$version"
+archive="dist/trello-full-page-cards-$version.zip"
+
+gh auth status >/dev/null 2>&1 || { echo 'Sign in with gh auth login first.' >&2; exit 1; }
+remote=$(git remote get-url origin)
+case "$remote" in
+  git@github.com:*) repository=${remote#git@github.com:} ;;
+  https://github.com/*) repository=${remote#https://github.com/} ;;
+  *) echo 'The origin remote must point to GitHub.' >&2; exit 1 ;;
+esac
+repository=${repository%.git}
+python3 scripts/build.py
+
+if git rev-parse --verify "refs/tags/$tag" >/dev/null 2>&1; then
+  if [[ "$(git rev-parse "$tag^{commit}")" != "$(git rev-parse HEAD)" ]]; then
+    echo "$tag already points to another commit. Update the manifest version first." >&2
+    exit 1
+  fi
+else
+  git tag "$tag"
+fi
+
+git push origin main "refs/tags/$tag"
+
+if gh release view "$tag" --repo "github.com/$repository" >/dev/null 2>&1; then
+  gh release upload "$tag" "$archive" --clobber --repo "github.com/$repository"
+else
+  notes=$(mktemp)
+  trap 'rm -f "$notes"' EXIT
+  cat > "$notes" <<EOF
+Download **trello-full-page-cards-$version.zip** and extract it.
+
+1. Open **chrome://extensions** in Chrome.
+2. Turn on **Developer mode**.
+3. Click **Load unpacked** and select the extracted **extension** folder.
+4. Reload Trello. For an existing install, replace its files and click **Reload**.
+EOF
+  gh release create "$tag" "$archive" --verify-tag --latest \
+    --title "Trello Full Page Cards $version" --notes-file "$notes" --repo "github.com/$repository"
+fi
+
+releases=$(gh api --hostname github.com --paginate "repos/$repository/releases" --jq '.[].tag_name')
+while IFS= read -r previous; do
+  [[ -z "$previous" || "$previous" == "$tag" ]] && continue
+  gh release delete "$previous" --yes --repo "github.com/$repository"
+done <<< "$releases"
+
+gh release view "$tag" --json url --jq .url --repo "github.com/$repository"
