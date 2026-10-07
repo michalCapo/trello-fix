@@ -4,9 +4,9 @@ Trello Full Page Cards is a Google Chrome extension. It makes Trello cards fill 
 
 ## Download
 
-**[Download the latest version](https://github.com/michalCapo/trello-full-page-cards/releases/latest)**
+**[Download the latest version](https://github.com/michalCapo/trello-fix/releases/latest)**
 
-On the download page, look under **Assets**. Download the file named **trello-full-page-cards-VERSION.zip**. VERSION is a number, for example `trello-full-page-cards-1.8.0.zip`.
+On the download page, look under **Assets**. Download the file named **trello-full-page-cards-VERSION.zip**. VERSION is a number, for example `trello-full-page-cards-1.8.1.zip`.
 
 Choose the named extension ZIP for the steps below, rather than the **Source code** downloads.
 
@@ -14,7 +14,7 @@ Choose the named extension ZIP for the steps below, rather than the **Source cod
 
 You need Google Chrome on a desktop or laptop computer. You do not need to build anything.
 
-1. Download the **trello-full-page-cards-VERSION.zip** file from the [download page](https://github.com/michalCapo/trello-full-page-cards/releases/latest).
+1. Download the **trello-full-page-cards-VERSION.zip** file from the [download page](https://github.com/michalCapo/trello-fix/releases/latest).
 2. Find the ZIP file in your Downloads folder.
 3. Extract (unzip) it. On most computers, right-click the file and choose **Extract All** or **Extract Here**. On a Mac, double-click it.
 4. Move the extracted folder to a place where it can stay, such as your Documents folder.
@@ -34,7 +34,7 @@ You need Google Chrome on a desktop or laptop computer. You do not need to build
 
 ## Update to a new version
 
-1. Download the new **trello-full-page-cards-VERSION.zip** from the [download page](https://github.com/michalCapo/trello-full-page-cards/releases/latest).
+1. Download the new **trello-full-page-cards-VERSION.zip** from the [download page](https://github.com/michalCapo/trello-fix/releases/latest).
 2. Extract it.
 3. Open the new **extension** folder. Copy all of its files.
 4. Open the **extension** folder you installed the first time. Paste the files there. Choose to replace the old files.
