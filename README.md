@@ -1,12 +1,14 @@
-# Trello Full Page Cards
+# trello-fix
 
-Trello Full Page Cards is a Google Chrome extension. It makes Trello cards fill the whole browser tab, so they are easier to read and work with. It also keeps your boards tidy by showing at most two lists (columns) open at a time.
+trello-fix is a Google Chrome extension. It makes Trello cards fill the whole browser tab, so they are easier to read and work with. Up to two board columns can stay open at once.
+
+After installation, Chrome shows it as **Trello Full Page Cards**.
 
 ## Download
 
 **[Download the latest version](https://github.com/michalCapo/trello-fix/releases/latest)**
 
-On the download page, look under **Assets**. Download the file named **trello-full-page-cards-VERSION.zip**. VERSION is a number, for example `trello-full-page-cards-1.8.1.zip`.
+On the download page, look under **Assets**. Download the file named **trello-full-page-cards-VERSION.zip**. VERSION is a number, for example `trello-full-page-cards-1.8.2.zip`.
 
 Choose the named extension ZIP for the steps below, rather than the **Source code** downloads.
 
