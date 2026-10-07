@@ -1,208 +1,130 @@
 # Trello Full Page Cards
 
-A small Chrome extension that fills the browser tab with the Trello card view
-and keeps up to two board columns open at a time.
-Comments and activity stay on the right at widths of 1,100 px and above. Below
-that width they appear after the card details and attachments. The whole view
-scrolls together. Trello's close button, Escape key, menus, and editing stay native.
-Descriptions always show their full contents, including embedded images.
+Trello Full Page Cards is a Google Chrome extension. It makes Trello cards fill the whole browser tab, so they are easier to read and work with. It also keeps your boards tidy by showing at most two lists (columns) open at a time.
 
-Cards from the current list appear as horizontal buttons above the status and action row at
-every screen size. The strip stays visible while scrolling the card. Scroll it
-sideways when needed. Click a card to switch directly; the current card is
-highlighted. There is no collapse control.
-Hover over the strip and use the mouse wheel to scroll it horizontally. At
-either end, wheel scrolling passes through to the page. Ctrl+wheel keeps
-browser zoom, and horizontal trackpad scrolling stays native.
-Each button shows its title on the first row, with member avatars and colored
-labels on the second row and the card number (for example, **#2496**) aligned
-to the right. Numbers come
-from the loaded card links and are omitted when unavailable.
-Long titles are shortened to one line; hover to see
-the full title. Members and labels follow updates to the loaded board cards.
-Drag a button before or after another button to change that card's position in
-the Trello list. A blue marker shows the drop position. Drag near either edge
-to scroll the strip. Trello's own drag handlers save the change; the strip
-then follows the board order. Press Escape or drop outside the strip to cancel.
-Keyboard: focus a button and press **Alt+Shift+Left/Right** to move it one place.
-Reordering is available only when the underlying board card is draggable.
-When you move the open card with Trello's list selector, the strip stays on the
-original list and opens its next card. Moving the last card opens the previous
-one. If no cards remain, the strip shows an empty message.
+## Download
 
-The navigation reads cards already loaded on the board, in board order. Open
-cards from their board and clear board filters to include all cards. A direct
-card link without the board loaded shows a hint instead of an incomplete list.
+**[Download the latest version](https://github.com/michalCapo/trello-full-page-cards/releases/latest)**
 
-In an image preview, scroll the mouse wheel to zoom around the pointer. Click
-and drag to pan. Images can grow beyond the viewport without being squeezed
-back to fit. Double-click or press **0** to fit the image again. **+** and **-**
-also zoom. Trello's close, download, and attachment navigation controls remain.
+On the download page, look under **Assets**. Download the file named **trello-full-page-cards-VERSION.zip**. VERSION is a number, for example `trello-full-page-cards-1.8.0.zip`.
 
-## Board columns
+Choose the named extension ZIP for the steps below, rather than the **Source code** downloads.
 
-The first board list opens by default. Other lists appear as narrow vertical tabs
-with their names and loaded card counts. Click a tab, or focus it and press
-Enter/Space, to open that list. Up to two lists can stay open. Opening a third
-closes the list that was opened first.
+## Install in Google Chrome
 
-Drag a card from an open list onto a closed column to move it there. The target
-highlights while dragging. Both open columns stay open after the drop, and
-counts update. Empty columns also accept drops. Trello's native drag handlers
-save the move; the extension makes no move requests. Drop position within a
-closed list is controlled by Trello. Open the list to reorder its cards.
+You need Google Chrome on a desktop or laptop computer. You do not need to build anything.
 
-Counts include cards loaded on the board, so active board filters can reduce them.
-Open lists are kept during card updates and reset when changing boards or
-reloading the page. While a full-page card is open, the underlying board keeps
-its native layout for the card navigation strip. Closing the card restores the selected columns.
+1. Download the **trello-full-page-cards-VERSION.zip** file from the [download page](https://github.com/michalCapo/trello-full-page-cards/releases/latest).
+2. Find the ZIP file in your Downloads folder.
+3. Extract (unzip) it. On most computers, right-click the file and choose **Extract All** or **Extract Here**. On a Mac, double-click it.
+4. Move the extracted folder to a place where it can stay, such as your Documents folder.
+   - Chrome uses this folder every time it starts. Do not delete or move it after installing.
+5. Open Chrome.
+6. Type `chrome://extensions` in the address bar and press **Enter**.
+7. Turn on **Developer mode**. The switch is in the top-right corner of the page.
+8. Click **Load unpacked**. The button appears in the top-left after Developer mode is on.
+9. Choose the correct folder:
+   - Open the folder you extracted.
+   - Inside it, find the folder named **extension**.
+   - Select the **extension** folder and confirm.
+   - Tip: The correct folder contains a file named **manifest.json**. If Chrome shows an error, you probably chose the wrong folder. Try again and choose **extension**.
+10. The extension now appears in the list on the extensions page.
+11. Go to any open Trello tabs and reload them.
+12. Open a Trello card. It should now fill the whole tab.
 
-## Install
+## Update to a new version
 
-1. Download the extension ZIP from [GitHub Releases](https://github.com/michalCapo/trello-full-page-cards/releases/latest) and extract it.
-2. Open `chrome://extensions` in Chrome.
-3. Turn on **Developer mode**.
-4. Click **Load unpacked** and select the extracted `extension` folder.
-5. Reload any open Trello tabs, then open a card.
+1. Download the new **trello-full-page-cards-VERSION.zip** from the [download page](https://github.com/michalCapo/trello-full-page-cards/releases/latest).
+2. Extract it.
+3. Open the new **extension** folder. Copy all of its files.
+4. Open the **extension** folder you installed the first time. Paste the files there. Choose to replace the old files.
+5. Open `chrome://extensions` in Chrome.
+6. Find **Trello Full Page Cards** and click its **Reload** button (the round arrow).
+7. Reload your Trello tabs.
 
-No build, account setup, or API key is needed. The extension only runs on
-`https://trello.com/*`. It makes no network requests and stores no card data.
+## Turn it off
 
-To restore Trello's original layout, disable the extension and reload Trello.
-After changing the extension files, click **Reload** on its extension tile and
-reload Trello.
+To go back to Trello's normal layout:
 
-## Release
+1. Open `chrome://extensions`.
+2. Turn off the switch on **Trello Full Page Cards**.
+3. Reload Trello.
 
-Run `make` to list all available actions. With Python 3 installed, build just the
-ZIP without GitHub access:
+## What it does
 
-```sh
-make build
-```
+### Full-page cards
 
-To publish, install Git, GitHub CLI (`gh`), and Python 3, then sign in with
-`gh auth login`. Set the version in `extension/manifest.json` and commit your
-changes on `main`. Run either command:
+- Cards fill the whole browser tab.
+- On wide screens, comments appear on the right.
+- On narrow screens, comments appear below the card.
+- Long descriptions show in full. Nothing is cut off or faded.
+- Images in descriptions show in full.
+- Trello's own buttons, menus, editing, and close button still work. **Escape** still closes the card.
 
-```sh
-./release
-# or
-make release
-```
+### Card strip
 
-The command builds `dist/trello-full-page-cards-VERSION.zip` from the committed
-extension and README, pushes `main` and the version tag, and publishes the ZIP
-on GitHub Releases. Running it again for the same commit replaces the ZIP asset.
-To release a different commit, use a new manifest version. The command stops if
-there are uncommitted changes. After the new ZIP uploads successfully, the
-command deletes older GitHub releases and their assets, keeping only the current
-release.
+When a card is open, a strip of cards appears above it. The strip shows cards from the same list.
 
-## Layout compatibility
+- Click a card in the strip to open it. The current card is highlighted.
+- Each card shows member pictures, colored labels, and its card number (for example **#2496**).
+- Drag a card in the strip to change its order in the list. Trello saves the new order. Press **Escape** to cancel a drag.
+- Keyboard: select a card in the strip and press **Alt+Shift+Left** or **Alt+Shift+Right** to move it.
+- Use the mouse wheel over the strip to scroll it sideways.
 
-The extension uses Trello's current card dialog test ID and semantic `main` and
-`aside` elements. It preserves the existing DOM so Trello controls keep their
-event handlers. Image previews get wheel zoom and drag panning. Other dialogs
-are left alone.
-Trello can change its markup; if that happens, update the selectors in
-`extension/content.js`, `extension/column-nav.js`, and `extension/board-columns.js`.
+### Board columns
 
-Chrome's [content scripts documentation](https://developer.chrome.com/docs/extensions/develop/concepts/content-scripts)
-describes the extension mechanism used here.
+- At most two lists are open at once.
+- The first list is open when the board loads.
+- Closed lists appear as narrow tabs with their name and total number of cards.
+- Click a closed list to open it.
+- If two lists are already open, opening a third closes the one opened first.
+- Drag a card onto a closed list to move it there. Your open lists stay open.
+- The board is centered when it fits on the screen. When it is wider than the screen, scroll sideways to see all lists.
 
-## Validation
+### Image previews
 
-The shipped CSS and JavaScript were injected into a live, public Trello card
-using Chromium. Checked layouts at 390, 800, 1,000, and 1,440 px; comments below
-on narrow screens and beside the card on wide screens; no horizontal overflow;
-and cleanup when closing the card. JavaScript syntax and manifest JSON checks
-passed.
+- Scroll the mouse wheel to zoom in and out.
+- Click and drag to move around the image.
+- Double-click, or press **0**, to fit the image to the screen again.
+- **+** and **-** also zoom.
 
-Image preview checks covered wheel events zooming beyond the viewport,
-zooming around the pointer, mouse drag panning, the zoom limit, double-click
-and keyboard reset, and closing the preview while keeping the card open.
-A temporary, browser-only long-description probe verified 951 px of content
-displayed fully, with both the fade overlay and expansion button hidden.
-No test content was saved to Trello.
+## Privacy
 
-Version 1.2 checks covered switching between cards using the new list, selected
-card highlighting, desktop and mobile list layouts at 1,249 and 390 px, no
-horizontal overflow, and no browser errors. A temporary long-description probe
-verified all 972 px of text remained visible with no gradient mask, fade, or
-expansion toggle. This fixes the faded last lines on long descriptions.
+- No API key is needed.
+- No extra account is needed.
+- The extension never asks for your Trello password.
+- It runs only on trello.com.
+- It does not send your card data to any other service.
+- It does not store your card data.
 
-Version 1.3 uses an always-open, sticky horizontal button strip. Checked card
-switching, selected-button visibility after resizing, sticky positioning while
-scrolling, and no horizontal page overflow at 390 px.
+## Troubleshooting
 
-Version 1.3.3 DOM fixture checks covered moving the first, middle, last, and only
-card; delayed insertion into the destination list; keeping the original list;
-normal navigation; and resetting the list after closing and reopening the card.
-Live Trello editing still needs a manual check.
+- **Card counts look wrong, or the card strip is missing cards.** Clear any filters on the board. The extension only counts cards that Trello shows on the board.
+- **The card strip is missing.** This can happen if you opened a card from a direct link and the board did not load. Open the card from its board instead.
+- **Nothing changed after installing.** Reload your Trello tabs.
 
-Version 1.4 DOM fixture checks covered forwarding drag events to the board;
-first, middle, last, and unchanged positions; canceling and dropping outside
-the strip; keeping tabs intact during activity updates; keyboard moves and
-focus; read-only cards; and cleanup when closing a card during a drag.
-Wheel checks covered both directions, pixel/line/page deltas, scroll limits,
-Ctrl+wheel, and horizontal trackpad events. Live Trello persistence still
-needs a manual check on an editable board.
+## For contributors
 
-The automated browser did not load the unpacked extension, so installation
-needs a manual Chrome check. Editing was not tested because the public card
-was read-only.
+You only need this section if you want to build or publish a new version. You do not need it to install the extension.
 
-Version 1.5 DOM fixture checks covered initials and image avatars, named and
-color-only labels, cards without badges, and live badge text and color updates.
-Desktop and 390 px layouts kept titles on one line with badges below, without
-horizontal page overflow or browser errors. Live Trello markup still needs a
-manual check after reloading the extension.
+**Requirements:** Make, Git, GitHub CLI (`gh`), and Python 3.
 
-Version 1.5.1 uses Trello's live `compact-card-label` selector. Label text and
-colors were checked on a public board. When the board hides badges, the open
-card's tab reads its members and labels from the card details instead. A DOM
-fixture verified that fallback, including initials and avatar colors.
+**Commands:**
 
-Version 1.5.2 reads the colored inner avatar instead of its transparent wrapper.
-A nested-avatar fixture verified white MK initials on a purple circle. Avatars
-without a visible background use a neutral circle with readable initials.
+- `make` lists all available actions.
+- `make build` creates only the ZIP file: `dist/trello-full-page-cards-VERSION.zip`. It does not publish anything.
+- `make release` or `./release` builds the ZIP, pushes `main` and the version tag, and publishes the ZIP on GitHub Releases.
 
-Version 1.5.4 adds card numbers to the tab's second row and keeps the card
-content below the sticky tabs so the title cannot paint over them. JavaScript
-syntax, manifest JSON, and nine card URL parsing cases passed. Browser
-validation was not run because no application start command is configured
-in Libro.
+**To publish a release:**
 
-Version 1.5.5 moves the card number to the right edge of the tab's second row.
+1. Set the new version in `extension/manifest.json`.
+2. Commit all your changes on `main`. The command stops if there are uncommitted changes.
+3. Sign in to GitHub CLI with `gh auth login`.
+4. Run `make release`.
 
-Version 1.6.0 adds one-open-column board navigation. The local browser fixture
-passed 22 checks covering tab switching, hidden cards, native drop hit testing,
-empty-list drops, updated counts, keeping the source column open, replacing a
-list DOM node and its classes, full-page card compatibility, drag cancellation,
-and board cleanup. A real browser drag moved a card into an empty closed list without switching the open list. Desktop
-(1,197 px) and mobile (390 px) screenshots were inspected. JavaScript syntax
-and manifest JSON checks passed. These checks use simulated Trello markup;
-live Trello saving and unpacked-extension installation still need a manual check.
+**Good to know:**
 
-To run the fixture without a server, open `tests/board-columns.html` in a browser
-and run `runBoardColumnTests()` in its console. It uses fictional cards and makes
-no changes to Trello.
-
-Version 1.6.1 adds 12 px spacing after collapsed columns, including before the
-open column, and removes collapsed-wrapper padding so tabs stay within their width.
-
-Version 1.6.2 applies the same wrapper spacing to open and closed columns, fixing
-uneven gaps on either side of the open column.
-
-Version 1.6.3 centers the board row horizontally when it fits. Wider boards stay
-aligned to the start so all columns remain reachable by scrolling.
-
-Version 1.7.1 removes assigned-card counts, account discovery, and member scans.
-Columns show only total card counts again. Centering, spacing, switching, and
-native drag-and-drop stay available.
-
-Version 1.8.0 allows up to two columns open at once. The first list opens by
-default; opening a second keeps the first, and opening a third closes the oldest
-open list. Native drops keep both selections. The local fixture passed 24 checks
-at desktop and mobile widths, including replacing list nodes and closing dialogs.
+- Only the current GitHub release is kept. After the new ZIP uploads successfully, older releases and their files are deleted.
+- Running the release again for the same commit uploads the ZIP again.
+- To release a different commit, use a new version number in `extension/manifest.json`.
+- If Trello changes its page layout, the extension may stop working. Update the selectors in `extension/content.js`, `extension/column-nav.js`, and `extension/board-columns.js`.

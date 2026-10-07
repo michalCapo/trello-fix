@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import re
+import subprocess
 import zipfile
 from pathlib import Path
 
@@ -11,8 +12,10 @@ if not re.fullmatch(r"\d+\.\d+\.\d+(?:\.\d+)?", version):
 
 archive = root / "dist" / f"trello-full-page-cards-{version}.zip"
 archive.parent.mkdir(exist_ok=True)
-files = sorted(path for path in (root / "extension").rglob("*") if path.is_file())
-files.append(root / "README.md")
+tracked = subprocess.check_output(
+    ["git", "ls-files", "-z", "--", "extension", "README.md"], cwd=root
+)
+files = [root / name.decode() for name in tracked.split(b"\0") if name]
 with zipfile.ZipFile(archive, "w", zipfile.ZIP_DEFLATED) as package:
     for path in files:
         # Fixed timestamps make repeated builds of the same files identical.
