@@ -1,6 +1,6 @@
 # trello-fix
 
-trello-fix is a Google Chrome extension. It makes Trello cards fill the whole browser tab, so they are easier to read and work with. Up to two board columns can stay open at once.
+trello-fix is a Google Chrome extension. It makes Trello cards fill the whole browser tab, so they are easier to read and work with. Up to three board columns can stay open at once.
 
 After installation, Chrome shows it as **Trello Full Page Cards**.
 
@@ -59,12 +59,12 @@ When a card is open, a strip of cards appears above it. The strip shows cards fr
 
 ![Two open columns, narrow closed columns, and a vertical Add another list button centered on the board](docs/screenshots/board-columns.png)
 
-- At most two lists are open at once.
+- At most three lists are open at once.
 - The first list is open when the board loads.
 - Closed lists appear as narrow tabs with their name and total number of cards.
 - Click a closed list to open it.
 - Click an open list's header or name to close it. This replaces Trello's click-to-rename.
-- If two lists are already open, opening a third closes the one opened first.
+- If three lists are already open, opening a fourth closes the one opened first.
 - Drag a card onto a closed list to move it there. Your open lists stay open.
 - **Add another list** is a narrow vertical button. Click it to open the normal list form.
 - The board is centered when it fits on the screen. When it is wider than the screen, scroll sideways to see all lists.

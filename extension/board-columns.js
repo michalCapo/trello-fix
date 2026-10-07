@@ -26,7 +26,7 @@
     allClosed = false;
     openLists = openLists.filter(entry => entry.list !== list);
     openLists.push({ list, id: listId(list) });
-    if (openLists.length > 2) openLists.shift();
+    if (openLists.length > 3) openLists.shift();
     update();
     list.querySelector('[data-testid="card-name"][href], button:not(.tfp-board-tab)')
       ?.focus({ preventScroll: true });

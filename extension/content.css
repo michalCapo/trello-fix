@@ -315,7 +315,7 @@
   line-height: 20px;
 }
 
-/* Up to two native board lists stay open; the others become vertical drop rails. */
+/* Up to three native board lists stay open; the others become vertical drop rails. */
 :has(> .tfp-board-shell) {
   justify-content: safe center !important;
 }

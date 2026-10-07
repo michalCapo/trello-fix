@@ -62,12 +62,16 @@ async function runBoardColumnTests() {
   check(lists()[0].querySelector('[data-testid="list-card"]').getBoundingClientRect().height > 0,
     'First list stays visible with a second list open');
   lists()[2].querySelector('.tfp-board-tab').click();
-  check(open().length === 2 && open().includes(lists()[1]) && open().includes(lists()[2]),
-    'Opening a third list closes the oldest open list');
+  check(open().length === 3 && [0, 1, 2].every(index => open().includes(lists()[index])),
+    'Opening a third list keeps the others open');
+  lists()[3].querySelector('.tfp-board-tab').click();
+  check(open().length === 3 && [1, 2, 3].every(index => open().includes(lists()[index])),
+    'Opening a fourth list closes the oldest open list');
   check(lists()[0].querySelector('[data-testid="list-card"]').getBoundingClientRect().height === 0,
-    'Oldest list cards are hidden after opening a third list');
+    'Oldest list cards are hidden after opening a fourth list');
   const originalOpen = lists()[1];
   const otherOpen = lists()[2];
+  const thirdOpen = lists()[3];
   const card = originalOpen.querySelector('[data-testid="list-card"]');
   const transfer = new DataTransfer();
   card.dispatchEvent(new DragEvent('dragstart', { bubbles: true, cancelable: true, dataTransfer: transfer }));
@@ -85,16 +89,16 @@ async function runBoardColumnTests() {
   card.dispatchEvent(new DragEvent('dragend', { bubbles: true, dataTransfer: transfer }));
   await settle();
   check(target.contains(card), 'Native drop moves card into empty closed list');
-  check(open().length === 2 && open().includes(originalOpen) && open().includes(otherOpen),
-    'Dropping preserves both open lists');
+  check(open().length === 3 && [originalOpen, otherOpen, thirdOpen].every(list => open().includes(list)),
+    'Dropping preserves all open lists');
   check(lists()[4].querySelector('.tfp-board-count').textContent === '1', 'Destination count updates');
   check(lists()[1].querySelector('.tfp-board-count').textContent === '1', 'Source count updates');
   const replacement = originalOpen.cloneNode(true);
   replacement.querySelector('.tfp-board-tab').remove();
   originalOpen.replaceWith(replacement);
   await settle();
-  check(open().includes(replacement) && open().includes(otherOpen) && open().length === 2,
-    'React replacement keeps both selections by list ID');
+  const kept = () => open().length === 3 && [replacement, otherOpen, thirdOpen].every(list => open().includes(list));
+  check(kept(), 'React replacement keeps all selections by list ID');
   lists()[0].className = '';
   await settle();
   check(lists()[0].classList.contains('tfp-board-collapsed'), 'React class updates restore collapsed state');
@@ -108,19 +112,18 @@ async function runBoardColumnTests() {
   check(!composer.classList.contains('tfp-board-add-shell'), 'Full-page card preserves native composer geometry');
   dialog.remove();
   await settle();
-  check(open().length === 2 && open().includes(replacement) && open().includes(otherOpen),
-    'Closing full-page card restores both selected columns');
+  check(kept(), 'Closing full-page card restores all selected columns');
   check(composer.classList.contains('tfp-board-add-shell'), 'Closing full-page card restores vertical add-list button');
   const sourceCard = replacement.querySelector('[data-testid="list-card"]');
   sourceCard.dispatchEvent(new DragEvent('dragstart', { bubbles: true, dataTransfer: new DataTransfer() }));
   lists()[4].querySelector('.tfp-board-tab').click();
-  check(open().length === 2 && open().includes(replacement) && open().includes(otherOpen),
-    'Clicks during a drag cannot switch lists');
+  check(kept(), 'Clicks during a drag cannot switch lists');
   dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
   check(lists().every(list => !list.classList.contains('tfp-board-dragging')), 'Escape clears drag state');
   replacement.closest('[data-testid="list-wrapper"]').remove();
   await settle();
-  check(open().length === 1 && open()[0] === otherOpen, 'Removing one open list keeps the other open');
+  check(open().length === 2 && open().includes(otherOpen) && open().includes(thirdOpen),
+    'Removing one open list keeps the others open');
   document.querySelector('#board').replaceChildren();
   await settle();
   populate();
