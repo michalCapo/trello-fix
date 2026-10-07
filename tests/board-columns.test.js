@@ -65,12 +65,12 @@ async function runBoardColumnTests() {
   check(open().length === 3 && [0, 1, 2].every(index => open().includes(lists()[index])),
     'Opening a third list keeps the others open');
   lists()[3].querySelector('.tfp-board-tab').click();
-  check(open().length === 3 && [1, 2, 3].every(index => open().includes(lists()[index])),
-    'Opening a fourth list closes the oldest open list');
-  check(lists()[0].querySelector('[data-testid="list-card"]').getBoundingClientRect().height === 0,
-    'Oldest list cards are hidden after opening a fourth list');
+  check(open().length === 3 && [0, 1, 3].every(index => open().includes(lists()[index])),
+    'Opening a fourth list closes the last opened list');
+  check(lists()[2].querySelector('[data-testid="list-card"]').getBoundingClientRect().height === 0,
+    'Last opened list cards are hidden after opening a fourth list');
   const originalOpen = lists()[1];
-  const otherOpen = lists()[2];
+  const otherOpen = lists()[0];
   const thirdOpen = lists()[3];
   const card = originalOpen.querySelector('[data-testid="list-card"]');
   const transfer = new DataTransfer();
@@ -99,9 +99,9 @@ async function runBoardColumnTests() {
   await settle();
   const kept = () => open().length === 3 && [replacement, otherOpen, thirdOpen].every(list => open().includes(list));
   check(kept(), 'React replacement keeps all selections by list ID');
-  lists()[0].className = '';
+  lists()[2].className = '';
   await settle();
-  check(lists()[0].classList.contains('tfp-board-collapsed'), 'React class updates restore collapsed state');
+  check(lists()[2].classList.contains('tfp-board-collapsed'), 'React class updates restore collapsed state');
   const dialog = document.createElement('div');
   dialog.setAttribute('role', 'dialog');
   dialog.setAttribute('data-testid', 'card-back-name');
